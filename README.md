@@ -1,2 +1,4 @@
 # gsic
-Generalized self-interaction correction from Adiabatic Projection
+Generalized Perdew-Zunger self-interaction correction from adiabatic projection
+
+This implements the methods of arXiv.org:XXX . Based on PySCF. 
