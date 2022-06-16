@@ -10,7 +10,7 @@ import numpy
 import re 
 import scipy 
 import math 
-from pyscf import scf, mcscf, gto, dft
+from pyscf import scf, mcscf, gto, dft, mrpt 
 from pyscf.lo.edmiston import ER 
 from pyscf.lo.ibo import ibo
 from scipy import linalg 
@@ -156,11 +156,10 @@ def CAStest(m,nelec,norb,sortmos):
     myhf.kernel()# PySCF uses ROHF orbitals for open shell CASSCF 
 
   # CAS 
-  if(norb<1):
-    mycas = myhf
-    ncas = 0 
-    ncore = m.nelec[0]
-  else:
+  mycas = myhf
+  ncas = 0 
+  ncore = m.nelec[0]
+  if(norb>0):
     mycas=myhf.CASSCF(norb,nelec)
     mycas.fix_spin(s)
     if(len(sortmos)>0):
@@ -175,7 +174,7 @@ def CAStest(m,nelec,norb,sortmos):
   EC = 0 
   if(norb>0):
     EC=mrpt.NEVPT(mycas,root=0).kernel()
-  else:
+  elif(nelec>0):
     mp = myhf.MP2().run() 
     EC = mp.e_corr
 
